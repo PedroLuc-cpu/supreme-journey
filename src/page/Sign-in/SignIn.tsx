@@ -35,6 +35,7 @@ export default function SignIn () {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
+
   const handleEnter = (): void => {
     if ((email.length > 0) && password.length >= 20) {
       console.log('Entering')
@@ -42,6 +43,17 @@ export default function SignIn () {
       console.log('sua senha tem menos que 20 caracteres')
     }
   }
+
+  function calcularLength (email: string, password: string): number {
+    return email.length * password.length / 2
+  }
+
+  const cacheCalulator = React.useMemo(() => calcularLength(email, password), [email, password])
+
+  React.useEffect(() => {
+    console.log(email)
+    console.log(password)
+  }, [email, password])
 
   return (
    <ThemeProvider theme={defaultTheme}>
@@ -59,7 +71,7 @@ export default function SignIn () {
        <LockOutlinedIcon />
       </Avatar>
       <Typography component="h1" variant="h5">
-             Sign in
+             {cacheCalulator}
       </Typography>
       <Box component="form" noValidate sx={{ mt: 1 }}>
        <TextField
