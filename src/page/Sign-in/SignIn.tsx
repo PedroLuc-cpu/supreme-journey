@@ -33,27 +33,29 @@ const defaultTheme = createTheme()
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default function SignIn () {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
+  const [email, setEmail] = React.useState<string>('');
+  const [password, setPassword] = React.useState<string | number>('');
+  let [isRemember, isSetRemember] = React.useState<boolean>(false);
 
-  const handleEnter = (): void => {
-    if ((email.length > 0) && password.length >= 20) {
-      console.log('Entering')
-    } else {
-      console.log('sua senha tem menos que 20 caracteres')
+  const handleEnter = () => {
+    return {
+      email: console.log(email),
+      password: console.log(password),
+      isRemember: console.log(isRemember)
     }
   }
 
-  function calcularLength (email: string, password: string): number {
-    return email.length * password.length / 2
-  }
+  // function calcularLength (email: string, password: string): number {
+  //   return email.length * password.length / 2
+  // }
 
-  const cacheCalulator = React.useMemo(() => calcularLength(email, password), [email, password])
+  // const cacheCalulator = React.useMemo(() => calcularLength(email, password), [email, password])
 
   React.useEffect(() => {
     console.log(email)
     console.log(password)
-  }, [email, password])
+    console.log(isRemember)
+  }, [email, password, isRemember])
 
   return (
    <ThemeProvider theme={defaultTheme}>
@@ -71,7 +73,7 @@ export default function SignIn () {
        <LockOutlinedIcon />
       </Avatar>
       <Typography component="h1" variant="h5">
-             {cacheCalulator}
+        Login
       </Typography>
       <Box component="form" noValidate sx={{ mt: 1 }}>
        <TextField
@@ -99,7 +101,9 @@ export default function SignIn () {
         autoComplete="current-password"
        />
        <FormControlLabel
-        control={<Checkbox value="remember" color="primary" />}
+        control={<Checkbox color="primary" />}
+        value={console.log(isRemember)}
+        onClick={() => {isSetRemember(isRemember = true)}}
         label="Remember me"
        />
        <Button
