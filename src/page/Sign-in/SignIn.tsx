@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { render } from 'react-dom'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function Copyright (props: any) {
@@ -27,6 +28,8 @@ function Copyright (props: any) {
   )
 }
 
+
+
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme()
 
@@ -37,12 +40,37 @@ export default function SignIn () {
   const [password, setPassword] = React.useState<string | number>('');
   let [isRemember, isSetRemember] = React.useState<boolean>(false);
 
+
+
+
+  const [count, setCount] = React.useState(0);
+
+  const valueInitial = React.useRef<number>(0)
+
+    const element = (
+        <Typography component="h1" variant="h5">
+        Valor do contador antes : {valueInitial.current}
+      </Typography>
+  )
+
+  React.useEffect(()=>{
+    setInterval(()=>{
+      render(element, null, ()=>{})
+          
+    }, 1000)
+  }, [])
+
+
+
   const handleEnter = () => {
+    // if(ref_input.current !== null){
+    //   ref_input.current.focus();
+    // }
     return {
       email: console.log(email),
       password: console.log(password),
-      isRemember: console.log(isRemember)
     }
+    
   }
 
   // function calcularLength (email: string, password: string): number {
@@ -51,32 +79,32 @@ export default function SignIn () {
 
   // const cacheCalulator = React.useMemo(() => calcularLength(email, password), [email, password])
 
-  React.useEffect(() => {
-    console.log(email)
-    console.log(password)
-    console.log(isRemember)
-  }, [email, password, isRemember])
+  // React.useEffect(() => {
+  //   console.log(email)
+  //   console.log(password)
+  //   console.log(isRemember)
+  // }, [email, password, isRemember])
 
   return (
-   <ThemeProvider theme={defaultTheme}>
+  <ThemeProvider theme={defaultTheme}>
     <Container component="main" maxWidth="xs">
-     <CssBaseline />
-     <Box
+    <CssBaseline />
+    <Box
       sx={{
         marginTop: 8,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center'
       }}
-     >
+    >
       <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-       <LockOutlinedIcon />
+      <LockOutlinedIcon />
       </Avatar>
       <Typography component="h1" variant="h5">
-        Login
+        Valor do contador atual : {count}
       </Typography>
       <Box component="form" noValidate sx={{ mt: 1 }}>
-       <TextField
+      <TextField
         onChange={(e) => { setEmail(e.target.value) } }
         margin="normal"
         required
@@ -86,9 +114,8 @@ export default function SignIn () {
         name="email"
         autoComplete="email"
         value={email}
-        autoFocus
-       />
-       <TextField
+      />
+      <TextField
         onChange={(e) => { setPassword(e.target.value) } }
         margin="normal"
         required
@@ -99,36 +126,55 @@ export default function SignIn () {
         id="password"
         value={password}
         autoComplete="current-password"
-       />
-       <FormControlLabel
+      />
+      <FormControlLabel
         control={<Checkbox color="primary" />}
-        value={console.log(isRemember)}
+        value={isRemember}
         onClick={() => {isSetRemember(isRemember = true)}}
         label="Remember me"
-       />
-       <Button
+      />
+      <Button
         type="button"
         onClick={handleEnter}
         fullWidth
         variant="contained"
         sx={{ mt: 3, mb: 2 }}
-       >
-               Sign In
-       </Button>
-       <Grid container>
-        <Grid item xs>
-         <Link href="#" variant="body2">
-                   Forgot password?
-         </Link>
-        </Grid>
-        <Grid item>
-         <Link href="#" variant="body2">
-          {"Don't have an account? Sign Up"}
-         </Link>
-        </Grid>
-       </Grid>
+      >
+        Sign In
+      </Button>
+              
+      <Box display={"flex"} gap={2}>
+        <Button
+        type="button"
+        variant="contained"
+        onClick={() => setCount((state) => state + 1)}
+      >
+        contar
+      </Button>
+
+      <Button
+        type="button"
+        variant="contained"
+        onClick={() => console.log(valueInitial.current)}
+      >
+        Logar UseRef
+      </Button>
+
       </Box>
-   </Box>
+        <Grid container>
+          <Grid item xs>
+            <Link href="#" variant="body2">
+                    Forgot password?
+            </Link>
+          </Grid>
+          <Grid item>
+            <Link href="#" variant="body2">
+              {"Don't have an account? Sign Up"}
+            </Link>
+          </Grid>
+        </Grid>
+      </Box>
+    </Box>
     <Copyright sx={{ mt: 8, mb: 4 }} />
     </Container>
     </ThemeProvider>

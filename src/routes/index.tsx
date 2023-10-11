@@ -1,6 +1,6 @@
 import {Routes, Route, Navigate } from "react-router-dom";
-import SignIn from "../page/sign-in/SignIn";
 import { Calculator } from "../page/calc/Calculator";
+import SignIn from "../page/Sign-in/SignIn";
 
 
 export function AppRoute(){
