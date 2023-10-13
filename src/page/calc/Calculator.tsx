@@ -1,9 +1,12 @@
-import { Box, TextField, Button, Typography } from "@mui/material"
+import { Box, TextField, Button, Typography} from "@mui/material"
 import * as React from "react"
 // import { v4 as uuidv4 } from 'uuid';
 import Autocomplete from '@mui/material/Autocomplete';
+import { ButtonError } from "../../shared/components";
+import { UsuarioLogadoContext } from "../../shared/contexts";
 
 
+    
 interface Parser<T> {
     /**
      * Realiza o parse de um objeto retornado pelo back-end.
@@ -35,13 +38,15 @@ const Client : Parser<Client> = {
     }, 
     
     }
+    export type TypeUploadFile = string;
 
 
 export function Calculator(){
-    const [nome, setNome] = React.useState('')
-    const [email, setEmail] = React.useState('')
+    const [Nome, setNome] = React.useState('')
+    const [Email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
 
+    const {email, nome, senha} = React.useContext(UsuarioLogadoContext);
 
 
        const setCliente = (client : Client ) =>{
@@ -51,9 +56,9 @@ export function Calculator(){
        }
        
        const handleSave = () =>{
-            setCliente({email, nome, password})
-            console.log(email)
-            console.log(nome)
+            setCliente({email: Email, nome: Nome, password})
+            console.log(Email)
+            console.log(Nome)
             console.log(password)
        }
 
@@ -64,19 +69,25 @@ export function Calculator(){
 
     return(
             <Box display={"flex"} flexDirection={"column"} width={500} gap={2}>
-            <Typography align="center">{}</Typography>
+            <Typography align="center">{nome}</Typography>
+            <Typography align="center">{email}</Typography>
+            <Typography align="center">{senha}</Typography>
+
             <TextField 
-            type="text" 
-            label="Nome" 
-            size="small" 
-            value={nome}
-            onChange={e => setNome(e.target.value)}
+            type="file"
+            accessKey="image/*" 
+            size="small"
+            name="upload"
+            id="upload"
             />
+            
+            
+            
             <TextField 
             label="Email" 
             type="email" 
             size="small" 
-            value={email}
+            value={Email}
             onChange={e => setEmail(e.target.value)}
             />
             <TextField 
@@ -86,6 +97,7 @@ export function Calculator(){
             value={password}
             onChange={e =>  setPassword(e.target.value)}
             />
+
             <Button
             onClick={() => handleSave()}
             variant="contained">Cadastrar</Button>
@@ -96,8 +108,11 @@ export function Calculator(){
             sx={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label="Email" 
             />
-            }
-            />
+            }/>
+
+        <ButtonError onclick={() => console.log("clique clique")} type="button">
+          Cadastra-se
+        </ButtonError>
         </Box>
 
     )

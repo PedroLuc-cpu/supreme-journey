@@ -12,7 +12,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { render } from 'react-dom'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function Copyright (props: any) {
@@ -44,25 +43,18 @@ export default function SignIn () {
 
 
   const [count, setCount] = React.useState(0);
+  const valueInitial = React.useRef({counting : 0})
+  const RefInputAcess = React.useRef<HTMLInputElement>(null)
+  
 
-  const valueInitial = React.useRef<number>(0)
 
-    const element = (
-        <Typography component="h1" variant="h5">
-        Valor do contador antes : {valueInitial.current}
-      </Typography>
-  )
 
   React.useEffect(()=>{
-    setInterval(()=>{
-      render(element, null, ()=>{})
-          
-    }, 1000)
+    valueInitial.current.counting = count + 1
+    console.log(RefInputAcess.current?.value)
   }, [])
 
-
-
-  const handleEnter = () => {
+    const handleEnter = () => {
     // if(ref_input.current !== null){
     //   ref_input.current.focus();
     // }
@@ -102,6 +94,9 @@ export default function SignIn () {
       </Avatar>
       <Typography component="h1" variant="h5">
         Valor do contador atual : {count}
+      </Typography>
+      <Typography component="h1" variant="h5">
+        Valor do contador antes : {valueInitial.current.counting}
       </Typography>
       <Box component="form" noValidate sx={{ mt: 1 }}>
       <TextField
@@ -155,7 +150,7 @@ export default function SignIn () {
       <Button
         type="button"
         variant="contained"
-        onClick={() => console.log(valueInitial.current)}
+        onClick={() => console.log(valueInitial.current.counting)}
       >
         Logar UseRef
       </Button>
